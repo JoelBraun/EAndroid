@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values-in/values.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values-in/values.xml -->
     <eat-comment />
 
     <string name="abc_action_bar_home_description" msgid="4600421777120114993">"Navigasi ke beranda"</string>

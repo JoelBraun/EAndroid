@@ -1,11 +1,11 @@
-apply plugin: 'android'
+apply plugin: 'eaglerobotics'
 
 android {
     compileSdkVersion 19
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.example.android.effectivenavigation"
+        applicationId "com.example.eaglerobotics.effectivenavigation"
         minSdkVersion 14
         targetSdkVersion 14
     }
@@ -13,14 +13,14 @@ android {
     buildTypes {
         release {
             runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-eaglerobotics.txt'), 'proguard-rules.txt'
         }
     }
     dependencies {
-        compile "com.android.support:support-v4:19.0.+"
-        compile "com.android.support:appcompat-v7:19.0.+"
+        compile "com.eaglerobotics.support:support-v4:19.0.+"
+        compile "com.eaglerobotics.support:appcompat-v7:19.0.+"
     }
 }
 dependencies {
-    compile 'com.android.support:support-v4:19.+'
+    compile 'com.eaglerobotics.support:support-v4:19.+'
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
     <eat-comment />
 
     <attr name="actionBarDivider" format="reference" />
@@ -78,11 +78,11 @@
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/colors.xml -->
     <eat-comment />
 
     <color name="black_overlay">#66000000</color>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
     <eat-comment />
 
     <declare-styleable name="ActionBar">
@@ -184,14 +184,14 @@
         -->
         <attr name="expandActivityOverflowButtonDrawable" format="reference" />
     </declare-styleable>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/attrs.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/attrs.xml -->
     <eat-comment />
 
     <declare-styleable name="ButtonBarContainerTheme">
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
     <eat-comment />
 
     <declare-styleable name="CompatTextView">
@@ -521,7 +521,7 @@
     <string name="abc_searchview_description_voice">Voice search</string>
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/strings.xml -->
     <eat-comment />
 
     <string name="app_name">Eagle Robotics</string>
@@ -531,7 +531,7 @@
     <string name="robotics">Robotics</string>
     <string name="slogan">Engage, Challenge, Inspire</string>
     <string name="title_activity_splash">SplashActivity</string>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/styles.xml -->
     <eat-comment />
 
     <style name="ButtonBar">
@@ -543,13 +543,13 @@
     </style>
 
     <style name="ButtonBarButton" />
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/themes.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/themes.xml -->
     <eat-comment />
 
     <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/styles.xml -->
     <eat-comment />
 
     <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
@@ -558,14 +558,14 @@
         <item name="metaButtonBarStyle">@style/ButtonBar</item>
         <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
     </style>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/res/values/themes.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/src/main/res/values/themes.xml -->
     <eat-comment />
 
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@android:color/holo_blue_light</item>
         <item name="android:backgroundStacked">@android:color/holo_blue_dark</item>
     </style>
-    <!-- From: file:/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Joel%20Braun/Documents/EAndroid/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res/values/values.xml -->
     <eat-comment />
 
     <style name="TextAppearance.AppCompat.Base.CompactMenu.Dialog" parent="android:TextAppearance.Medium">

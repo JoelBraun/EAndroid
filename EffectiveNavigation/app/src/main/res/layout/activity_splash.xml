@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#071B8C"
-    tools:context="com.example.android.effectivenavigation.SplashActivity"
+    tools:context="com.example.eaglerobotics.effectivenavigation.SplashActivity"
     android:longClickable="false">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -49,7 +49,7 @@
         android:layout_above="@+id/robotics" />
 
     <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
+         eaglerobotics:fitsSystemWindows. -->
 
 
 
