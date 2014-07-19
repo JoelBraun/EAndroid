@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="19.0.1" >
+        <source path="/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/assets" />
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/assets" >
+            <file
+                name="fonts/optimus.ttf"
+                path="/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/main/assets/fonts/optimus.ttf" />
+        </source>
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/Users/joel/AndroidStudioProjects/EffectiveNavigation/app/src/debug/assets" />
+    </dataSet>
+
+</merger>
