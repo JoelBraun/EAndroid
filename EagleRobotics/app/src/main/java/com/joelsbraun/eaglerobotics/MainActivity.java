@@ -18,13 +18,17 @@ package com.joelsbraun.eaglerobotics;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +36,23 @@ import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -48,9 +68,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
      * time.
      */
+
     ViewPager mViewPager;
 
     public void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -90,7 +112,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             actionBar.addTab(
                     actionBar.newTab()
                             .setText(mAppSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+                            .setTabListener(this)
+            );
         }
     }
 
@@ -108,6 +131,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+
+
+
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
@@ -124,11 +151,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 0:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+                    return new TwitterFragment();
                 case 1:
                     return new FacebookFragment();
                 case 2:
-                    return new TwitterFragment();
+                    return new AboutFragment();
                 default:
                     return null;
 
@@ -144,11 +171,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "About Us";
+                    return "Twitter";
                 case 1:
                     return "Facebook";
                 case 2:
-                    return "Twitter";
+                    return "About Us";
                 default:
                     return "None";
             }
@@ -159,7 +186,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     /**
      * A fragment that launches other parts of the demo application.
      */
-    public static class LaunchpadSectionFragment extends Fragment {
+    public static class AboutFragment extends Fragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -172,40 +199,46 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
-    /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
-     */
+
 
 
     public static class TwitterFragment extends Fragment {
 
-        @Override
+        WebView twitterWebView;
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_twitter, container, false);
+            twitterWebView = (WebView) rootView.findViewById(R.id.webview);
 
-            WebView twitterWebView = (WebView) rootView.findViewById(R.id.webview);
-            twitterWebView.loadUrl("http://m.twitter.com/eaglerobotics");
-            WebSettings webSettings = twitterWebView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-
-
-            twitterWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return true;
-                }
-            });
-
-            // Demonstration of a collection-browsing activity.
-
+            TwitterAsyncGet tag = new TwitterAsyncGet();
+            tag.execute();
             return rootView;
-            // Demonstration of navigating to external activities.
-
-
         }
+
+       private class TwitterAsyncGet extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+                twitterWebView.loadUrl("file:///android_asset/twitter.html");
+                WebSettings webSettings = twitterWebView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(String result) {
+            }
+            @Override
+            protected void onPreExecute() {
+            }
+            @Override
+            protected void onProgressUpdate(Void... values) {
+            }
+        }
+
+
+
     }
+
+
 
     public static class FacebookFragment extends Fragment {
 
@@ -213,8 +246,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_facebook, container, false);
-
-            WebView facebookWebView = (WebView) rootView.findViewById(R.id.webview);
+            WebView facebookWebView;
+          facebookWebView = (WebView) rootView.findViewById(R.id.webview);
             facebookWebView.loadUrl("http://m.facebook.com/eaglerobotics");
             WebSettings webSettings = facebookWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
@@ -234,4 +267,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
 
+
 }
+
+
+
+
