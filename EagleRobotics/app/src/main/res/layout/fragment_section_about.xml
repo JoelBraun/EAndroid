@@ -35,5 +35,16 @@
         android:layout_alignLeft="@+id/textView"
         android:layout_marginBottom="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/linktoweb"
+        android:id="@+id/LinkTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="26dp" />
+
 
 </RelativeLayout>

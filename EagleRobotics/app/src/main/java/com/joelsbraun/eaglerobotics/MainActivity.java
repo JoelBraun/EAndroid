@@ -28,6 +28,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -193,7 +194,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_about, container, false);
 
-            // Demonstration of a collection-browsing activity.
+            TextView lnk = (TextView) rootView.findViewById(R.id.LinkTextView);
+            lnk.setMovementMethod(LinkMovementMethod.getInstance());
 
             return rootView;
         }
@@ -205,39 +207,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static class TwitterFragment extends Fragment {
 
         WebView twitterWebView;
+
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_twitter, container, false);
             twitterWebView = (WebView) rootView.findViewById(R.id.webview);
-
-            TwitterAsyncGet tag = new TwitterAsyncGet();
-            tag.execute();
+            twitterWebView.loadUrl("file:///android_asset/twitter.html");
+            WebSettings twittersettings = twitterWebView.getSettings();
+            twittersettings.setJavaScriptEnabled(true);
             return rootView;
         }
 
-       private class TwitterAsyncGet extends AsyncTask<String, Void, String> {
-            @Override
-            protected String doInBackground(String... params) {
-                twitterWebView.loadUrl("file:///android_asset/twitter.html");
-                WebSettings webSettings = twitterWebView.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-                return null;
-            }
-            @Override
-            protected void onPostExecute(String result) {
-            }
-            @Override
-            protected void onPreExecute() {
-            }
-            @Override
-            protected void onProgressUpdate(Void... values) {
-            }
-        }
-
-
 
     }
-
 
 
     public static class FacebookFragment extends Fragment {
@@ -251,15 +233,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             facebookWebView.loadUrl("http://m.facebook.com/eaglerobotics");
             WebSettings webSettings = facebookWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
-
-
-            facebookWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return true;
-                }
-            });
 
 
             return rootView;
