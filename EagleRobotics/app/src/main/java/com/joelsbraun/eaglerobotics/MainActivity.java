@@ -229,17 +229,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_facebook, container, false);
             WebView facebookWebView;
-          facebookWebView = (WebView) rootView.findViewById(R.id.webview);
-            facebookWebView.loadUrl("http://m.facebook.com/eaglerobotics");
-            WebSettings webSettings = facebookWebView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
+            facebookWebView = (WebView) rootView.findViewById(R.id.webview);
 
+            String url = "http://m.facebook.com/eaglerobotics";
 
+            facebookWebView.loadUrl(url);
+            facebookWebView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
             return rootView;
+
         }
+
+
     }
-
-
 
 }
 
