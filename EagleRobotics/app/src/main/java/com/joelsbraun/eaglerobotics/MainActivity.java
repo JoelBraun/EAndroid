@@ -230,7 +230,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             View rootView = inflater.inflate(R.layout.fragment_section_facebook, container, false);
             WebView facebookWebView;
             facebookWebView = (WebView) rootView.findViewById(R.id.webview);
-
+            WebSettings facebooksettings = facebookWebView.getSettings();
+            facebooksettings.setJavaScriptEnabled(true);
             String url = "http://m.facebook.com/eaglerobotics";
 
             facebookWebView.loadUrl(url);
