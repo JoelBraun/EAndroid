@@ -12,4 +12,6 @@
     <string name="robotics">Robotics</string>
     <string name="eagle">Eagle</string>
     <string name="linktoweb"><a href="http://eaglerobotics.com/">Visit us at Eaglerobotics.com.</a></string>
+    <string name="page_title">Newest StackOverflow questions tagged \'android\'</string>
+    <string name="updated">Last updated:</string>
 </resources>

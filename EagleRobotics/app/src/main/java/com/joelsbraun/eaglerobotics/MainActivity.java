@@ -20,15 +20,19 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,12 +53,21 @@ import org.apache.http.params.BasicHttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import com.joelsbraun.eaglerobotics.XMLParse.Entry;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     /**
@@ -69,6 +82,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
      * time.
      */
+
+    private static final String URL =  "http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest";
+    static String xmldata;
+
+
+
+    // begin the rest of the code
+
 
     ViewPager mViewPager;
 
@@ -116,6 +137,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this)
             );
         }
+
     }
 
     @Override
@@ -132,14 +154,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-
-
-
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
-     * sections of the app.
-     */
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
@@ -184,9 +198,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
     public static class AboutFragment extends Fragment {
 
         @Override
@@ -200,9 +211,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return rootView;
         }
     }
-
-
-
 
     public static class TwitterFragment extends Fragment {
 
@@ -221,33 +229,100 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     }
 
-
     public static class FacebookFragment extends Fragment {
+        private WebView myWebView;
+         String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
+            InputStream stream = null;
+            XMLParse facebookXMLParser = new XMLParse();
+            List<XMLParse.Entry> entries = null;
+            String title = null;
+            String url = null;
+            String summary = null;
+            Calendar rightNow = Calendar.getInstance();
+            DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
+
+
+            StringBuilder htmlString = new StringBuilder();
+            htmlString.append("<h3>" + getResources().getString(R.string.page_title) + "</h3>");
+            htmlString.append("<em>" + getResources().getString(R.string.updated) + " " +
+                    formatter.format(rightNow.getTime()) + "</em>");
+
+            try {
+                stream = downloadUrl(urlString);
+                entries = facebookXMLParser.parse(stream);
+                // Makes sure that the InputStream is closed after the app is
+                // finished using it.
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
+            }
+            for (Entry entry : entries) {
+                //htmlString.append("<p><a href='");
+               // htmlString.append(entry.link);
+               // htmlString.append("'>" + entry.title + "</a></p>");
+                // If the user set the preference to include summary text,
+                // adds it to the display.
+
+                //htmlString.append(entry.summary);
+
+            }
+            return htmlString.toString();
+        }
+
+
+     InputStream downloadUrl(String urlString) throws IOException {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            // Starts the query
+            conn.connect();
+            InputStream stream = conn.getInputStream();
+            return stream;
+        }
+
+
+
+
+
+        private class DownloadXmlTask extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected String doInBackground(String... urls) {
+                try {
+                    return loadXmlFromNetwork(urls[0]);
+                } catch (IOException e) {
+                    return "Network Connection Error";
+                } catch (XmlPullParserException e) {
+                    return "XML Parse Error";
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                myWebView.loadData(result, "text/html", null);
+
+            }
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+
             View rootView = inflater.inflate(R.layout.fragment_section_facebook, container, false);
-            WebView facebookWebView;
-            facebookWebView = (WebView) rootView.findViewById(R.id.webview);
-            WebSettings facebooksettings = facebookWebView.getSettings();
-            facebooksettings.setJavaScriptEnabled(true);
-            String url = "http://m.facebook.com/eaglerobotics";
 
-            facebookWebView.loadUrl(url);
-            facebookWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return true;
-                }
-            });
+           myWebView = (WebView) rootView.findViewById(R.id.webview);
+            new DownloadXmlTask().execute(URL);
+
             return rootView;
-
         }
-
-
     }
+
 
 }
 
