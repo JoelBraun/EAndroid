@@ -14,6 +14,7 @@
 
 package com.joelsbraun.eaglerobotics;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -40,6 +41,7 @@ public class XMLParse {
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in, null);
             parser.nextTag();
+            Log.w("Input", in.toString());
             return readFeed(parser);
         } finally {
             in.close();
@@ -48,17 +50,23 @@ public class XMLParse {
 
     private List<Entry> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
         List<Entry> entries = new ArrayList<Entry>();
+        parser.require(XmlPullParser.START_TAG, ns, "rss");
 
-        parser.require(XmlPullParser.START_TAG, ns, "feed");
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
+                Log.w("dd", "Got this far!");
                 continue;
             }
             String name = parser.getName();
-            // Starts by looking for the entry tag
-            if (name.equals("entry")) {
+            Log.w("name", name);
+            if (name.equals("item")) {
+
+                // it never gets to here
+                Log.w("ddddd", "got that far");
                 entries.add(readEntry(parser));
-            } else {
+            }
+            else {
+                Log.w("else","else");
                 skip(parser);
             }
         }
@@ -83,7 +91,7 @@ public class XMLParse {
     // off
     // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
     private Entry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, "entry");
+        parser.require(XmlPullParser.START_TAG, ns, "item");
         String title = null;
         String summary = null;
         String link = null;
@@ -94,7 +102,7 @@ public class XMLParse {
             String name = parser.getName();
             if (name.equals("title")) {
                 title = readTitle(parser);
-            } else if (name.equals("summary")) {
+            } else if (name.equals("description")) {
                 summary = readSummary(parser);
             } else if (name.equals("link")) {
                 link = readLink(parser);
@@ -109,6 +117,7 @@ public class XMLParse {
     private String readTitle(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, "title");
         String title = readText(parser);
+        Log.w("title", title);
         parser.require(XmlPullParser.END_TAG, ns, "title");
         return title;
     }
@@ -116,24 +125,19 @@ public class XMLParse {
     // Processes link tags in the feed.
     private String readLink(XmlPullParser parser) throws IOException, XmlPullParserException {
         String link = "";
-        parser.require(XmlPullParser.START_TAG, ns, "link");
-        String tag = parser.getName();
-        String relType = parser.getAttributeValue(null, "rel");
-        if (tag.equals("link")) {
-            if (relType.equals("alternate")) {
-                link = parser.getAttributeValue(null, "href");
-                parser.nextTag();
-            }
+        if (parser.next() == XmlPullParser.TEXT) {
+            link = parser.getText();
+            parser.nextTag();
         }
-        parser.require(XmlPullParser.END_TAG, ns, "link");
         return link;
     }
 
     // Processes summary tags in the feed.
     private String readSummary(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, ns, "summary");
+        parser.require(XmlPullParser.START_TAG, ns, "description");
         String summary = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, "summary");
+        parser.require(XmlPullParser.END_TAG, ns, "description");
+        Log.w("summary", summary);
         return summary;
     }
 
@@ -144,10 +148,12 @@ public class XMLParse {
             result = parser.getText();
             parser.nextTag();
         }
+        Log.w("result", result);
         return result;
     }
 
-    // Skips tags the parser isn't interested in. Uses depth to handle nested tags. i.e.,
+    // Skips tags the parser isn't interested in. Uses depth to ha
+    // ndle nested tags. i.e.,
     // if the next tag after a START_TAG isn't a matching END_TAG, it keeps going until it
     // finds the matching END_TAG (as indicated by the value of "depth" being 0).
     private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
@@ -161,7 +167,6 @@ public class XMLParse {
                     depth--;
                     break;
                 case XmlPullParser.START_TAG:
-                    depth++;
                     break;
             }
         }

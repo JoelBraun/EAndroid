@@ -69,7 +69,7 @@ import java.util.List;
 
 import com.joelsbraun.eaglerobotics.XMLParse.Entry;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-
+ public static WebView myWebView;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * three primary sections of the app. We use a {@link android.support.v4.app.FragmentPagerAdapter}
@@ -83,8 +83,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * time.
      */
 
-    private static final String URL =  "http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest";
-    static String xmldata;
+    private static final String URL =  "https://www.facebook.com/feeds/page.php?id=152554268176329&format=rss20";
 
 
 
@@ -153,6 +152,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+    @Override
+    public void onBackPressed(){
+        if(myWebView.canGoBack()){
+            myWebView.goBack();
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
 
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -196,8 +204,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
 
         }
-    }
-
     public static class AboutFragment extends Fragment {
 
         @Override
@@ -230,7 +236,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     public static class FacebookFragment extends Fragment {
-        private WebView myWebView;
+
          String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
             InputStream stream = null;
             XMLParse facebookXMLParser = new XMLParse();
@@ -243,9 +249,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 
             StringBuilder htmlString = new StringBuilder();
-            htmlString.append("<h3>" + getResources().getString(R.string.page_title) + "</h3>");
-            htmlString.append("<em>" + getResources().getString(R.string.updated) + " " +
-                    formatter.format(rightNow.getTime()) + "</em>");
 
             try {
                 stream = downloadUrl(urlString);
@@ -258,9 +261,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 }
             }
             for (Entry entry : entries) {
-                //htmlString.append("<p><a href='");
-               // htmlString.append(entry.link);
-               // htmlString.append("'>" + entry.title + "</a></p>");
+                htmlString.append("<p><a href='");
+                htmlString.append(entry.link);
+                htmlString.append("'>" + entry.title + "</a></p>");
                 // If the user set the preference to include summary text,
                 // adds it to the display.
 
@@ -297,13 +300,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 } catch (IOException e) {
                     return "Network Connection Error";
                 } catch (XmlPullParserException e) {
+                    Log.w("XML","XML", e);
                     return "XML Parse Error";
+
                 }
             }
 
             @Override
             protected void onPostExecute(String result) {
-
+                Log.w("XMLstring", result);
                 myWebView.loadData(result, "text/html", null);
 
             }
@@ -318,9 +323,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
            myWebView = (WebView) rootView.findViewById(R.id.webview);
             new DownloadXmlTask().execute(URL);
+            WebSettings facebookwebsettings = myWebView.getSettings();
+            facebookwebsettings.setJavaScriptEnabled(true);
+            myWebView.setWebViewClient(new WebViewClient());
+
 
             return rootView;
         }
+
+    }
+
     }
 
 
