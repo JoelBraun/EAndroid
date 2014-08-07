@@ -248,7 +248,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
 
 
+
             StringBuilder htmlString = new StringBuilder();
+             htmlString.append("<h3>Posts</h3>");
+             htmlString.append("<hr>");
 
             try {
                 stream = downloadUrl(urlString);
@@ -275,7 +278,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 
                     htmlString.append("<div>" + betterDate + "</div>");
+                    htmlString.append("<hr>");
                 }
+
             }
             return htmlString.toString();
         }
@@ -293,10 +298,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             InputStream stream = conn.getInputStream();
             return stream;
         }
-
-
-
-
 
         private class DownloadXmlTask extends AsyncTask<String, Void, String> {
 
