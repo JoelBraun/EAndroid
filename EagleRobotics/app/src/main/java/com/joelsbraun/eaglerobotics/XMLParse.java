@@ -79,11 +79,13 @@ public class XMLParse {
         public final String title;
         public final String link;
         public final String summary;
+        public final String date;
 
-        private Entry(String title, String summary, String link) {
+        private Entry(String title, String summary, String link, String date) {
             this.title = title;
             this.summary = summary;
             this.link = link;
+            this.date = date;
         }
     }
 
@@ -95,6 +97,7 @@ public class XMLParse {
         String title = null;
         String summary = null;
         String link = null;
+        String date = null;
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -106,11 +109,13 @@ public class XMLParse {
                 summary = readSummary(parser);
             } else if (name.equals("link")) {
                 link = readLink(parser);
+            } else if (name.equals("pubDate")) {
+                date = readDate(parser);
             } else {
                 skip(parser);
             }
         }
-        return new Entry(title, summary, link);
+        return new Entry(title, summary, link, date);
     }
 
     // Processes title tags in the feed.
@@ -143,6 +148,15 @@ public class XMLParse {
 
     // For the tags title and summary, extracts their text values.
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
+        String result = "";
+        if (parser.next() == XmlPullParser.TEXT) {
+            result = parser.getText();
+            parser.nextTag();
+        }
+        Log.w("result", result);
+        return result;
+    }
+    private String readDate(XmlPullParser parser) throws IOException, XmlPullParserException {
         String result = "";
         if (parser.next() == XmlPullParser.TEXT) {
             result = parser.getText();

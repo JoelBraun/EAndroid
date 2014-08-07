@@ -264,11 +264,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 htmlString.append("<p><a href='");
                 htmlString.append(entry.link);
                 htmlString.append("'>" + entry.title + "</a></p>");
-                // If the user set the preference to include summary text,
-                // adds it to the display.
+                if (entry.title.length() < 6){
 
-                //htmlString.append(entry.summary);
+                }
+                else {
+                    String betterDate = entry.date;
+                    StringBuffer buffer = new StringBuffer(betterDate);
+                    buffer.delete(25,31);
+                    betterDate = buffer.toString();
 
+
+                    htmlString.append("<div>" + betterDate + "</div>");
+                }
             }
             return htmlString.toString();
         }
